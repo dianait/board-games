@@ -32,6 +32,7 @@ import boardgames.composeapp.generated.resources.app_name
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
 import ui.screens.Screen
+import ui.screens.common.Loading
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,20 +52,7 @@ fun HomeScreen(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
         ) { padding ->
             val state = viewModel.state
-            if (state.error != null) {
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(state.error)
-                }
-            }
-            if(state.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(padding),
-                    contentAlignment = Alignment.Center
-                ) { CircularProgressIndicator() }
-            }
+            Loading(enabled = state.isLoading, modifier = Modifier)
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(150.dp),
                 contentPadding = PaddingValues(4.dp),
@@ -83,9 +71,6 @@ fun HomeScreen(
 
 @Composable
 fun BoardGameItem(boardgame: BoardGame, onGameClick: () -> Unit) {
-    val maxPlayers = boardgame.maxPlayers.toString()
-    val minPlayers = boardgame.minPlayers.toString()
-    val playTime = boardgame.playingTime.toString()
     Column (modifier = Modifier.clickable(onClick = onGameClick))
     {
         Image(boardgame = boardgame)
@@ -93,9 +78,6 @@ fun BoardGameItem(boardgame: BoardGame, onGameClick: () -> Unit) {
             text = boardgame.name,
             modifier = Modifier.padding(8.dp)
         )
-
-        Text(text = "😊 $minPlayers-$maxPlayers players")
-        Text(text = "🕣 time: $playTime min")
     }
 }
 

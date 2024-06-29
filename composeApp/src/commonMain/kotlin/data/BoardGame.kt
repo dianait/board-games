@@ -8,7 +8,8 @@ data class BoardGame(
     val maxPlayers: Int,
     val playingTime: Int,
     val yearPublished: Int,
-    val userComment: String
+    val userComment: String,
+    val rating: Double
 )
 
 val boardGame1 = BoardGame(
@@ -19,7 +20,8 @@ val boardGame1 = BoardGame(
     maxPlayers = 4,
     playingTime = 120,
     yearPublished = 1995,
-    userComment = "Uno de los mejores juegos de estrategia para jugar con amigos."
+    userComment = "Uno de los mejores juegos de estrategia para jugar con amigos.",
+    rating = 4.0
 )
 
 val boardGame2 = BoardGame(
@@ -30,7 +32,8 @@ val boardGame2 = BoardGame(
     maxPlayers = 5,
     playingTime = 180,
     yearPublished = 2016,
-    userComment = "Gran juego de estrategia con mucha rejugabilidad y profundidad."
+    userComment = "Gran juego de estrategia con mucha rejugabilidad y profundidad.",
+    rating = 5.3
 )
 
 val boardGames = listOf(boardGame1, boardGame2)

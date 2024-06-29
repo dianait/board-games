@@ -6,10 +6,13 @@ import data.BoardGame
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import data.BoardGameService
+import data.BoardGamesRepository
 import data.RemoteBoardGame
 import kotlinx.coroutines.launch
 
-class HomeViewModel(boardGameService: BoardGameService): ViewModel() {
+class HomeViewModel(
+    repository: BoardGamesRepository
+): ViewModel() {
     var state by mutableStateOf(UiState())
         private set
 
@@ -17,7 +20,7 @@ class HomeViewModel(boardGameService: BoardGameService): ViewModel() {
         viewModelScope.launch {
             state = UiState(isLoading = true)
             try {
-                val boardGames = boardGameService.getBoardGames().map { it.toDomainBoardGame() }
+                val boardGames = repository.fetchBoardGames()
                 state = UiState(isLoading = false, boardGames = boardGames)
             }
             catch (e: Exception) {
@@ -35,19 +38,6 @@ class HomeViewModel(boardGameService: BoardGameService): ViewModel() {
         val error: String? = null
     )
 
-}
-
-private fun RemoteBoardGame.toDomainBoardGame(): BoardGame {
-    return BoardGame(
-        gameId = gameId,
-        name = name,
-        image = image,
-        minPlayers = minPlayers,
-        maxPlayers = maxPlayers,
-        playingTime = playingTime,
-        yearPublished = yearPublished,
-        userComment = userComment
-    )
 }
 
 
