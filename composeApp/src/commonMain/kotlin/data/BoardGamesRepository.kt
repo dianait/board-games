@@ -15,10 +15,10 @@ class BoardGamesRepository(private val boardGamesService: BoardGameService) {
             gameId = gameId,
             name = name,
             image = image,
-            minPlayers = minPlayers,
-            maxPlayers = maxPlayers,
-            playingTime = playingTime,
-            yearPublished = yearPublished,
+            minPlayers = minPlayers.toString(),
+            maxPlayers = maxPlayers.toString(),
+            playingTime = playingTime.toString(),
+            yearPublished = yearPublished.toString(),
             userComment = userComment,
             rating = rating
         )
