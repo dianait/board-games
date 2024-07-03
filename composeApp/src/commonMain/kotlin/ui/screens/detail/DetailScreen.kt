@@ -1,4 +1,5 @@
 package ui.screens.detail
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import data.BoardGame
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import boardgames.composeapp.generated.resources.Res
 import boardgames.composeapp.generated.resources.back
+import boardgames.composeapp.generated.resources.comment
+import boardgames.composeapp.generated.resources.players
+import boardgames.composeapp.generated.resources.playingTime
+import boardgames.composeapp.generated.resources.rating
+import boardgames.composeapp.generated.resources.yearPublished
 import coil3.compose.AsyncImage
 import org.jetbrains.compose.resources.stringResource
 import ui.screens.Screen
@@ -65,12 +71,6 @@ private fun BoardGameDetail(
     game: BoardGame,
     modifier: Modifier = Modifier
 ) {
-    val ratingDouble = game.rating
-    val rating = if (ratingDouble % 1 == 0.0) {
-        ratingDouble.toInt().toString()
-    } else {
-        ratingDouble.toString()
-    }
     Column(
         modifier = modifier
             .verticalScroll(rememberScrollState())
@@ -93,14 +93,18 @@ private fun BoardGameDetail(
 
         Text(
             text = buildAnnotatedString {
-                property("\uD83D\uDCC6 year published:", game.yearPublished)
-                property("\uD83D\uDE0A players:", "$game.minPlayers-$game.maxPlayers")
-                property("\uD83D\uDD63 time:", game.playingTime)
-                property("✨\uFE0F:", game.rating.toString())
+                property(stringResource(Res.string.yearPublished), game.yearPublished)
+                property(stringResource(Res.string.players), "${game.minPlayers} - ${game.maxPlayers}")
+                property(stringResource(Res.string.playingTime), "${game.playingTime} min")
+                property(stringResource(Res.string.rating), game.rating.toString(), end = game.userComment.isEmpty())
                 if (game.userComment.isNotEmpty()) {
-                    property("\uD83C\uDF99\uFE0F comment", game.userComment)
+                    property(stringResource(Res.string.comment), game.userComment, end = true)
                 }
-            }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.secondaryContainer)
+                .padding(16.dp)
         )
     }
 }
@@ -108,7 +112,7 @@ private fun BoardGameDetail(
 private fun AnnotatedString.Builder.property(name: String, value: String, end: Boolean = false) {
     withStyle(ParagraphStyle(lineHeight = 18.sp)) {
         withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-            append(name)
+            append("$name: ")
         }
         append(value)
         if (!end) {

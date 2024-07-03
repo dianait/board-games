@@ -1,6 +1,11 @@
 package data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class BoardGame(
+    @PrimaryKey(autoGenerate = true)
     val gameId: Int,
     val name: String,
     val image: String,
@@ -9,7 +14,7 @@ data class BoardGame(
     val playingTime: String,
     val yearPublished: String,
     val userComment: String,
-    val rating: Double
+    val rating: Number
 )
 
 

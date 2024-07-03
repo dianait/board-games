@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">🧩My Board Games 🧩</string>
     <string name="back">Back</string>
+    <string name="yearPublished">📆 year published</string>
+    <string name="players">😊 players</string>
+    <string name="playingTime">🕣 time</string>
+    <string name="rating">✨</string>
+    <string name="comment">🎙️ comment</string>
 </resources>
